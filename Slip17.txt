@@ -1,0 +1,48 @@
+
+<!-- Design HTML 5 Page Using CSS which display the following Box ( use Box Model Property in
+10
+CSS) -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Slip no 17</title>
+        <style>
+            .container{
+              background-color:orange;
+              border:3px solid black;  
+              width:500px; 
+              height:400px;       
+              margin:auto; 
+              margin-top:80px; 
+            }
+            .sub-container{
+                background-color:yellow;
+                border:3px solid black;
+                width:300px;
+                height:300px;
+                margin:auto;
+                margin-top:50px;
+            }
+            .child-container{
+                border:3px solid black;
+                margin:30px;
+                padding:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <div class="sub-container">
+
+        <div class="child-container">
+            <h2>M.sc (Computer Sci)</h2>
+        </div>
+        <h2 class="child-container">Academic Year 2023-24</h2>
+       
+        </div>
+        
+        </div>
+        
+    </body>
+</html>

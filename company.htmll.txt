@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Company Name</title>
+</head>
+<body>
+  <h1>ABC Corporation</h1>
+</body>
+</html>

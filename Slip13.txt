@@ -1,0 +1,53 @@
+
+
+<!-- Create a useful web with the following information and structure using
+HTML5 tags like:<header> , <footer>, <nav>, <aside>, <section> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+</head>
+<body>
+
+<header>
+  <h1>My Website</h1>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+  <section>
+    <h2>About Us</h2>
+    <p>We provide innovative solutions.</p>
+  </section>
+  
+  <section>
+    <h2>Our Services</h2>
+    <ul>
+      <li>Consulting</li>
+      <li>Development</li>
+      <li>Training</li>
+    </ul>
+  </section>
+  
+  <aside>
+    <h3>Latest News</h3>
+    <ul>
+      <li>New partnership announced</li>
+      <li>Upcoming event: Tech Conference</li>
+    </ul>
+  </aside>
+  <hr>
+  <h3>Footer</h3>
+<footer>
+  <p>&copy; 2023 My Website. All Rights Reserved.</p>
+  <p>Contact: info@mywebsite.com</p>
+</footer>
+
+</body>
+</html>

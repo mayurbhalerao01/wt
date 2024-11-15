@@ -1,0 +1,65 @@
+
+<!-- Design an HTML form to take the information of a customer for booking a
+travel plan consisting of fields such as name, address, contact no., gender,
+preferred season(Checkboxes), location type(to be selected from a list) etc.
+You should provide button to submit as well as reset the form contents -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Slip no 14</title>
+        <style>
+            form{
+                border:2px solid black;
+                padding:13px;
+                width:500px;
+                margin:auto;
+            }
+            h2{
+                text-align:center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <form>
+            <h2>Booking Form</h2>
+            <label for="fname">Enter your name:</label>
+            <input type="text" id="fname" name="name" placeholder="Enter name">
+            <br>
+            <br>
+            <label for="address">Enter your address:</label>
+            <textarea name="address" id="address" cols="15" rows="2" placeholder="Enter address"></textarea>
+            <br>
+            <br>
+            <label for="contact">Enter your contact number:</label>
+            <input type="number" id="contact" name="contact" placeholder="contact no">
+            <br>
+            <br>
+            <label for="gender">Select your gender:</label>
+            <input type="radio" id="gender" name="gender">Male
+            <input type="radio" id="gender" name="gender">Fmale
+            <br>
+            <br>
+            <label for="season">Your preferred season:</label>
+            <input type="checkbox" id="season" name="season">Summer
+            <input type="checkbox" id="season" name="season">Rainy
+            <input type="checkbox" id="season" name="season">Winter
+            <br>
+            <br>
+            <label for="location">Select Location</label>
+            <input list="Location" id="loaction" name="loaction">
+            <datalist id="Location">
+                <option value="Kedarnath">Kedarnath</option>
+                <option value="kanyakumari">kanyakumari</option>
+                <option value="goa">Goa</option>
+                <option value="kashmir">Kashmir</option>
+            </datalist>
+            <br>
+            <br>
+            <input type="reset" value="Reset">
+            <input type="submit" value="Submit">
+
+        </form>
+    </body>
+</html>

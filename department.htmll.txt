@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Departments</title>
+</head>
+<body>
+  <h2>Departments</h2>
+  <ul>
+    <li><a href="one.html" target="department_info">Human Resources</a></li>
+    <li><a href="two.html" target="department_info">Information Technology</a></li>
+    <li><a href="finance.html" target="department_info">Finance</a></li>
+  </ul>
+</body>
+</html>

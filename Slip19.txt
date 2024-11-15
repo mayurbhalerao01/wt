@@ -1,0 +1,73 @@
+.progress-container {
+    width: 300px;
+    height: 20px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #4CAF50;
+  }
+  
+  .progress-bar .progress {
+    height: 100%;
+    width: 0%;
+    animation: progressBar 10s linear, colorChange 3s linear infinite;
+  }
+  
+  @keyframes progressBar {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  @keyframes colorChange {
+    0% {
+      background-color: #4CAF50;
+    }
+    33% {
+      background-color: #FF0000;
+    }
+    66% {
+      background-color: #0000FF;
+    }
+    100% {
+      background-color: #4CAF50;
+    }
+  }
+  
+  .start-btn {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .progress-container {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  
+  .start-btn:focus + .progress-container {
+    opacity: 1;
+  }
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Download Progress Bar</title>
+  <link rel="stylesheet" href="slipno19.css">
+</head>
+<body>
+  <button class="start-btn">Start Download</button>
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    <span class="progress-text">0%</span>
+  </div>
+</body>
+</html>

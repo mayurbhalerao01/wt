@@ -1,0 +1,61 @@
+
+<!-- Create a web page to create 3D text. Apply all text effects like text shadow,
+text overflow, wordwrap etc -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D Text Effects</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        text-align: center;
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 700px;
+      }
+
+      .three-d-text {
+        font-size: 4em;
+        color: #ff5722;
+        text-shadow: 2px 2px 0 #ffc107, 4px 4px 0 #ffeb3b, 6px 6px 0 #8bc34a;
+        transform: translateZ(0);
+        overflow-wrap: break-word; 
+        max-width: 80%;
+        margin: 0 auto; 
+      }
+
+      .description {
+        font-size: 1.5em;
+        color: #333;
+        margin-top: 20px;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        /* overflow: hidden;  */
+        /* white-space: nowrap;  */
+        /* white-space: wrap; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="three-d-text">3D Text Example</h1>
+      <p class="description">
+        This is an example of 3D text with various effects like text shadow,
+        overflow, and word wrapping.
+      </p>
+    </div>
+  </body>
+</html>Slip

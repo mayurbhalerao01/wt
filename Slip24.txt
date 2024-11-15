@@ -1,0 +1,33 @@
+
+<!-- Create an html page named as “calendar.html”
+Use necessary input types and get following output -->
+
+<html>
+<head>
+	<title>Calendar</title>
+</head>
+<body>
+	<h1>Select Dates and Times:</h1>
+	<form>
+		<label for="date">Date:</label>
+		<input type="date" id="date" name="date"><br><br>
+		
+		<label for="datetime">Date and Time:</label>
+		<input type="datetime-local" id="datetime" name="datetime"><br><br>
+		
+		<label for="datetimelocal">Date and Time (Local):</label>
+		<input type="datetime-local" id="datetimelocal" name="datetimelocal"><br><br>
+		
+		<label for="week">Week:</label>
+		<input type="week" id="week" name="week"><br><br>
+		
+		<label for="time">Time:</label>
+		<input type="time" id="time" name="time"><br><br>
+		
+		<label for="month">Month:</label>
+		<input type="month" id="month" name="month"><br><br>
+		
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html> 
