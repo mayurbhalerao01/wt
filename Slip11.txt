@@ -1,0 +1,102 @@
+
+<!-- Write a HTML code which will divide web page in three frames. First frame
+should consists of company name as heading. Second frame should consists
+of name of departments with hyperlink. Once click on any department, it
+should display information of that department in third frame. -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Company Website</title>
+</head>
+<frameset rows="15%, *, 10%">
+  <frame src="company.html" name="company_name">
+  
+  <frameset rows="70%, 30%">
+    <frame src="departments.html" name="departments">
+    <frame src="department_info.html" name="department_info">
+  </frameset>
+</frameset>
+</html>
+
+
+
+<!-- company.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Company Name</title>
+</head>
+<body>
+  <h1>ABC Corporation</h1>
+</body>
+</html>
+
+
+<!-- departments.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Departments</title>
+</head>
+<body>
+  <h2>Departments</h2>
+  <ul>
+    <li><a href="one.html" target="department_info">Human Resources</a></li>
+    <li><a href="two.html" target="department_info">Information Technology</a></li>
+    <li><a href="finance.html" target="department_info">Finance</a></li>
+  </ul>
+</body>
+</html>
+
+
+
+<!-- one.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Human Resource (HR)
+
+        Human Resource refers to the department or function within an organization that focuses on the recruitment, management, development, and well-being of employees.
+    </h3>
+    
+</body>
+</html>
+
+
+<!--two.html  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h3>Information Technology (IT)
+
+        Information Technology refers to the use of computers, software, networks, and other digital technologies to manage, process, and store information.</h3>
+    
+</body>
+</html>
+
+<!-- finance.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>Finance refers to the management of money, investments, and other financial assets.
+    </h3>
+
+</body>
+</html>
