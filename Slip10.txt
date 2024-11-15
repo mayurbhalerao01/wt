@@ -1,0 +1,115 @@
+S10
+Q1) Create a web page that shows use of transition properties, transition delay and duration effect.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transition Effects Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, font-size 0.5s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #2ecc71;
+      font-size: 20px;
+      transition-delay: 0.2s; /* Adds a delay before starting the transition */
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Transition Effects Example</h2>
+
+  <button>Hover me</button>
+
+</body>
+</html>
+
+Q2
+1.Model the following Online shopping information as a document database. Consider online shopping where the customer can get different products from different brands. Customers can rate the brands and products 
+2. Assume appropriate attributes and collections as per the query requirements [3] 
+3. Insert at least 5 documents in each collection. [3]
+-- Create Product table
+CREATE TABLE Product (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    brand_name VARCHAR(255) NOT NULL,
+    warranty_period INT NOT NULL,
+    rating DECIMAL(3, 2) NOT NULL
+);
+
+-- Create Customer table
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL
+);
+
+-- Create Purchase table (to represent the many-to-many relationship between Customer and Product)
+CREATE TABLE Purchase (
+    purchase_id INT PRIMARY KEY,
+    customer_id INT,
+    product_id INT,
+    purchase_date DATE NOT NULL,
+    bill_amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+-- Insert sample data into Product table
+INSERT INTO Product (product_id, product_name, brand_name, warranty_period, rating) VALUES
+    (1, 'Laptop', 'BrandA', 1, 4.5),
+    (2, 'Smartphone', 'BrandB', 2, 3.8),
+    (3, 'Headphones', 'BrandC', 1, 4.0),
+    (4, 'TV', 'BrandA', 2, 4.2),
+    (5, 'Refrigerator', 'BrandB', 1, 4.8);
+
+-- Insert sample data into Customer table
+INSERT INTO Customer (customer_id, customer_name, city) VALUES
+    (101, 'John Doe', 'New York'),
+    (102, 'Jane Smith', 'Los Angeles'),
+    (103, 'Bob Johnson', 'Chicago'),
+    (104, 'Alice Brown', 'Houston'),
+    (105, 'Charlie Green', 'Miami');
+
+-- Insert sample data into Purchase table
+INSERT INTO Purchase (purchase_id, customer_id, product_id, purchase_date, bill_amount) VALUES
+    (1001, 101, 1, '2023-08-15', 1200),
+    (1002, 102, 3, '2023-08-15', 80),
+    (1003, 103, 2, '2023-08-15', 500),
+    (1004, 104, 5, '2023-08-15', 1000),
+    (1005, 105, 4, '2023-08-15', 800);
+ 4. Answer the following Queries. 
+a. List the names of product whose warranty period is one year [3 ] 
+SELECT product_name
+FROM Product
+WHERE warranty_period = 1;
+b. List the customers has done purchase on “15/08/2023”. [3 ] 
+SELECT customer_name
+FROM Customer c
+JOIN Purchase p ON c.customer_id = p.customer_id
+WHERE p.purchase_date = '2023-08-15';
+c. Display the names of products with brand which have highest rating. [4] 
+SELECT p.product_name, p.brand_name
+FROM Product p
+WHERE rating = (SELECT MAX(rating) FROM Product);
+d. Display customers who stay in …… city and billamt >50000
+SELECT *
+FROM Customer c
+JOIN Purchase p ON c.customer_id = p.customer_id
+WHERE c.city = 'New York' AND p.bill_amount > 50000;

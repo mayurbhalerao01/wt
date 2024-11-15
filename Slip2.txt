@@ -1,0 +1,152 @@
+S2
+
+Q1) Create a container add row inside it and add 3 columns inside row using BootStrap.
+Ans 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Bootstrap Container with Columns</title>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Row -->
+    <div class="row">
+
+      <!-- Column 1 -->
+      <div class="col-md-4">
+        <div class="bg-light p-3">
+          <!-- Content for Column 1 -->
+          <p>Column 1 Content</p>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="col-md-4">
+        <div class="bg-light p-3">
+          <!-- Content for Column 2 -->
+          <p>Column 2 Content</p>
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="col-md-4">
+        <div class="bg-light p-3">
+          <!-- Content for Column 3 -->
+          <p>Column 3 Content</p>
+        </div>
+      </div>
+
+    </div>
+    <!-- End Row -->
+  </div>
+
+  <!-- Bootstrap JS and Popper.js (Optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+Q2) 	1.Model the following system as a document database. Consider a database of newspaper, publisher, and city. Different publisher publishes various newspapers in different cities 
+2. Assume appropriate attributes and collections as per the query requirements. [3] 
+3. Insert at least 5 documents in each collection. [3] 
+-- Create Publisher table
+CREATE TABLE Publisher (
+    publisher_id INT PRIMARY KEY,
+    publisher_name VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL
+);
+
+-- Create City table
+CREATE TABLE City (
+    city_id INT PRIMARY KEY,
+    city_name VARCHAR(255) NOT NULL
+);
+
+-- Create Newspaper table
+CREATE TABLE Newspaper (
+    newspaper_id INT PRIMARY KEY,
+    newspaper_name VARCHAR(255) NOT NULL,
+    language VARCHAR(255) NOT NULL,
+    sale INT NOT NULL,
+    publisher_id INT,
+    city_id INT,
+    FOREIGN KEY (publisher_id) REFERENCES Publisher(publisher_id),
+    FOREIGN KEY (city_id) REFERENCES City(city_id)
+);
+
+-- Insert sample data into Publisher table
+INSERT INTO Publisher (publisher_id, publisher_name, state) VALUES
+    (101, 'ABC Publishers', 'Maharashtra'),
+    (102, 'XYZ Publishers', 'Gujarat'),
+    (103, 'PQR Publishers', 'Maharashtra'),
+    (104, 'LMN Publishers', 'Gujarat'),
+    (105, 'EFG Publishers', 'Maharashtra');
+
+-- Insert sample data into City table
+INSERT INTO City (city_id, city_name) VALUES
+    (201, 'Nashik'),
+    (202, 'Mumbai'),
+    (203, 'Ahmedabad'),
+    (204, 'Pune'),
+    (205, 'Surat');
+
+-- Insert sample data into Newspaper table
+INSERT INTO Newspaper (newspaper_id, newspaper_name, language, sale, publisher_id, city_id) VALUES
+    (301, 'Marathi Times', 'Marathi', 50000, 101, 201),
+    (302, 'Gujarat News', 'Gujarati', 45000, 102, 203),
+    (303, 'Mumbai Herald', 'English', 60000, 103, 202),
+    (304, 'Pune Express', 'Marathi', 55000, 104, 204),
+    (305, 'Surat Tribune', 'Gujarati', 48000, 105, 205);
+
+4. Answer the following Queries. 
+a. List all newspapers available “NASHIK” city [3]
+SELECT newspaper_name, language, sale
+FROM Newspaper
+WHERE city_id = (SELECT city_id FROM City WHERE city_name = 'Nashik');
+ b. List all the newspaper of “Marathi” language [3] 
+SELECT newspaper_name, language, sale
+FROM Newspaper
+WHERE language = 'Marathi';
+c. Count no. of publishers of “Gujrat” state [4] 
+SELECT COUNT(DISTINCT publisher_id) AS num_publishers
+FROM Publisher
+WHERE state = 'Gujarat';
+e.	Write a cursor to show newspapers with highest sale in Maharashtra State [4]
+DELIMITER //
+
+CREATE PROCEDURE GetHighestSaleNewspapers()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE newspaper_name VARCHAR(255);
+    DECLARE sale INT;
+
+    -- Declare cursor
+    DECLARE cur CURSOR FOR
+        SELECT newspaper_name, sale
+        FROM Newspaper
+        WHERE city_id IN (SELECT city_id FROM City WHERE state = 'Maharashtra')
+        ORDER BY sale DESC;
+
+    -- Declare continue handler
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+
+    -- Fetch and display data
+    FETCH cur INTO newspaper_name, sale;
+    WHILE NOT done DO
+        SELECT newspaper_name, sale;
+        FETCH cur INTO newspaper_name, sale;
+    END WHILE;
+
+    CLOSE cur;
+END //
+
+DELIMITER ;
+
+-- Call the stored procedure
+CALL GetHighestSaleNewspapers();

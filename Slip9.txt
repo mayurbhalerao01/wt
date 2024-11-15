@@ -1,0 +1,136 @@
+S9
+Q1) Write an HTML 5 program for student registration form for college admission. Use input type like search, email, date etc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Registration Form</h2>
+
+  <form action="#" method="post">
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" name="dob" required>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required>
+
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" required>
+
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" required>
+
+    <label for="zipcode">Zip Code:</label>
+    <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" required>
+    <small>Format: 12345</small>
+
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>
+
+Q2
+1. Model the following Customer Loan information as a documentdatabase. Consider Customer Loan information system where the customer can take many types of loans. 
+2. Assume appropriate attributes and collections as per the query requirements [3] 
+3. Insert at least 10 documents in each collection. [3] 
+-- Create Customer table
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL
+);
+
+-- Create Loan table
+CREATE TABLE Loan (
+    loan_id INT PRIMARY KEY,
+    customer_id INT,
+    loan_type VARCHAR(255) NOT NULL,
+    loan_amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+-- Insert sample data into Customer table
+INSERT INTO Customer (customer_id, customer_name, address, city) VALUES
+    (1, 'Mr. Patil', '123 Main St', 'Pimpri'),
+    (2, 'Mrs. Deshmukh', '456 Oak St', 'Mumbai'),
+    (3, 'Ms. Sharma', '789 Maple St', 'Pimpri'),
+    -- Add more customers as needed;
+
+-- Insert sample data into Loan table
+INSERT INTO Loan (loan_id, customer_id, loan_type, loan_amount) VALUES
+    (101, 1, 'Home Loan', 150000),
+    (102, 2, 'Car Loan', 50000),
+    (103, 3, 'Education Loan', 80000),
+    -- Add more loans as needed;
+4. Answer the following Queries. 
+a. List all customers whose name starts with 'D' character [3] 
+SELECT *
+FROM Customer
+WHERE customer_name LIKE 'D%';
+b.List the names of customer in descending order who has taken a loan from Pimpri city. [3] 
+SELECT c.customer_name
+FROM Customer c
+JOIN Loan l ON c.customer_id = l.customer_id
+WHERE c.city = 'Pimpri'
+ORDER BY c.customer_name DESC;
+c.Display customer details having maximum loan amount. [4]
+SELECT c.*, l.loan_amount
+FROM Customer c
+JOIN Loan l ON c.customer_id = l.customer_id
+WHERE l.loan_amount = (SELECT MAX(loan_amount) FROM Loan);
+ d.Update the address of customer whose name is “Mr. Patil” and loan_amt is greater than 100000.
+UPDATE Customer
+SET address = 'New Address'
+WHERE customer_name = 'Mr. Patil'
+  AND (SELECT loan_amount FROM Loan WHERE customer_id = (SELECT customer_id FROM Customer WHERE customer_name = 'Mr. Patil')) > 100000;

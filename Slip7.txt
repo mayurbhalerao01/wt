@@ -1,0 +1,100 @@
+S7
+Q1) Create a 3D text, apply appropriate font, style, color. Use : Hover in the style selector so that the 3D effects appear only when you hover over the text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Text Effect</title>
+  <style>
+    .threeD-text {
+      font-family: 'Arial', sans-serif;
+      font-size: 2em;
+      font-weight: bold;
+      color: #3498db;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      transition: transform 0.5s;
+    }
+
+    .threeD-text:hover {
+      transform: perspective(1000px) rotateX(20deg);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="threeD-text">Hover Me</div>
+
+</body>
+</html>
+
+Q2)
+1Model the following information as a document database. A customer operates his bank account, does various transactions and get the banking services 
+2. Assume appropriate attributes and collections as per the query requirements. [3] 
+3. Insert at least 5 documents in each collection. [3] 
+-- Create Customer table
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL
+);
+
+-- Create Account table
+CREATE TABLE Account (
+    account_id INT PRIMARY KEY,
+    customer_id INT,
+    account_type VARCHAR(255) NOT NULL,
+    open_date DATE NOT NULL,
+    branch VARCHAR(255) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+-- Create Transaction table
+CREATE TABLE Transaction (
+    transaction_id INT PRIMARY KEY,
+    account_id INT,
+    transaction_date DATE NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (account_id) REFERENCES Account(account_id)
+);
+
+-- Insert sample data into Customer table
+INSERT INTO Customer (customer_id, first_name, last_name) VALUES
+    (1, 'John', 'Doe'),
+    (2, 'Jane', 'Smith'),
+    (3, 'Bob', 'Johnson'),
+    (4, 'Alice', 'Brown'),
+    (5, 'Charlie', 'Green');
+
+-- Insert sample data into Account table
+INSERT INTO Account (account_id, customer_id, account_type, open_date, branch) VALUES
+    (101, 1, 'Saving', '2020-01-01', 'Main'),
+    (102, 2, 'Checking', '2020-01-01', 'Downtown'),
+    (103, 3, 'Loan', '2020-03-15', 'Main'),
+    (104, 4, 'Saving', '2020-01-01', 'Downtown'),
+    (105, 5, 'Loan', '2020-02-10', 'Main');
+
+-- Insert sample data into Transaction table
+INSERT INTO Transaction (transaction_id, account_id, transaction_date, amount) VALUES
+    (1001, 101, '2020-01-02', 500),
+    (1002, 102, '2020-01-05', -200),
+    (1003, 103, '2020-03-20', 1000),
+    (1004, 104, '2020-01-03', 300),
+    (1005, 105, '2020-02-15', -800);
+4. Answer the following Queries. 
+a. List names of all customers whose first name starts with a “S” [3] 
+SELECT * FROM Customer WHERE first_name LIKE 'S%';
+b. List all customers who has open an account on 1/1/2020 in ___branch [3] 
+SELECT c.* FROM Customer c
+JOIN Account a ON c.customer_id = a.customer_id
+WHERE a.open_date = '2020-01-01' AND a.branch = 'Main';
+c. List the names customers where acctype=”Saving” [4] 
+SELECT c.* FROM Customer c
+JOIN Account a ON c.customer_id = a.customer_id
+WHERE a.account_type = 'Saving';
+d. Count total no. of loan account holder of …….branch [4] 
+SELECT COUNT(*) AS num_loan_accounts
+FROM Account
+WHERE account_type = 'Loan' AND branch = 'Main';

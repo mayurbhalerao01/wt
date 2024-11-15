@@ -1,0 +1,184 @@
+S6
+Q1) Create a web page being rendered in the browser consists of many things - logo, informative text, pictures, hyperlinks, navigational structure and table
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Web Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.png" alt="Logo" width="100">
+    <h1>Company Name</h1>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Welcome to Our Website</h2>
+      <p>This is some informative text about our company and what we do. Feel free to explore the content below.</p>
+    </section>
+
+    <section>
+      <h2>Gallery</h2>
+      <img src="image1.jpg" alt="Image 1" width="300">
+      <img src="image2.jpg" alt="Image 2" width="300">
+      <!-- Add more images as needed -->
+    </section>
+
+    <section>
+      <h2>Useful Links</h2>
+      <ul>
+        <li><a href="#link1">Link 1</a></li>
+        <li><a href="#link2">Link 2</a></li>
+        <li><a href="#link3">Link 3</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Table Example</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Country</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John Doe</td>
+            <td>30</td>
+            <td>USA</td>
+          </tr>
+          <tr>
+            <td>Jane Smith</td>
+            <td>25</td>
+            <td>Canada</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+</body>
+</html>
+
+Q2)
+1Model the following information as a document database. A customer can take different policies and get the benefit. There are different types of policies provided by various companies 
+2. Assume appropriate attributes and collections as per the query requirements. [3]
+3. Insert at least 5 documents in each collection. [3] 
+-- Create Customer table
+CREATE TABLE Customer (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL
+);
+
+-- Create Policy table
+CREATE TABLE Policy (
+    policy_id INT PRIMARY KEY,
+    policy_type VARCHAR(255) NOT NULL,
+    premium_amount DECIMAL(10, 2) NOT NULL
+);
+
+-- Create CustomerPolicy table (to represent many-to-many relationship)
+CREATE TABLE CustomerPolicy (
+    customer_id INT,
+    policy_id INT,
+    PRIMARY KEY (customer_id, policy_id),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (policy_id) REFERENCES Policy(policy_id)
+);
+
+-- Insert sample data into Customer table
+INSERT INTO Customer (customer_id, customer_name) VALUES
+    (1, 'John Doe'),
+    (2, 'Jane Smith'),
+    (3, 'Bob Johnson'),
+    (4, 'Alice Brown'),
+    (5, 'Charlie Green');
+
+-- Insert sample data into Policy table
+INSERT INTO Policy (policy_id, policy_type, premium_amount) VALUES
+    (101, 'Komal Jeevan', 5000),
+    (102, 'Term Insurance', 3000),
+    (103, 'Monthly', 100),
+    (104, 'Quarterly', 250),
+    (105, 'Half Yearly', 500);
+
+-- Insert sample data into CustomerPolicy table
+INSERT INTO CustomerPolicy (customer_id, policy_id) VALUES
+    (1, 101),
+    (2, 101),
+    (3, 102),
+    (4, 103),
+    (5, 105);
+4. Answer the following Queries.
+ a. List the details of customers who have taken “Komal Jeevan” Policy [3]
+SELECT c.customer_name, p.policy_type, p.premium_amount
+FROM Customer c
+JOIN CustomerPolicy cp ON c.customer_id = cp.customer_id
+JOIN Policy p ON cp.policy_id = p.policy_id
+WHERE p.policy_type = 'Komal Jeevan';
+ b. Display average premium amount [3]
+SELECT AVG(premium_amount) AS average_premium
+FROM Policy;
+ c. Increase the premium amount by 5% for policy type=”Monthly” [4]
+UPDATE Policy
+SET premium_amount = premium_amount * 1.05
+WHERE policy_type = 'Monthly';
+ d. Count no. of customers who have taken policy type “half yearly”
+SELECT COUNT(cp.customer_id) AS num_customers
+FROM CustomerPolicy cp
+JOIN Policy p ON cp.policy_id = p.policy_id
+WHERE p.policy_type = 'Half Yearly';

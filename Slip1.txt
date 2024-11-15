@@ -1,0 +1,133 @@
+S1
+1)	Write the HTML5 code for generating the form as shown below. Apply the internal CSS to the following form to change the font size of the heading to 6pt and change the color to red and also change the background color to yellow.  
+ANS 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    form {
+      width: 300px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 16pt;
+      color: red;
+      background-color: yellow;
+      padding: 10px;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <form>
+    <h2>Styled Form</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+</body>
+</html>
+
+Q2)  1. Model the following Property system as a document database. Consider a set of Property, Owner. One owner can buy many properties.
+ 2. Assume appropriate attributes and collections as per the query requirements. [3] 
+3. Insert at least 05 documents in each collection Q	
+ 	 -- Create Owner table
+CREATE TABLE Owner (
+    owner_id INT PRIMARY KEY,
+    owner_name VARCHAR(255) NOT NULL
+);
+
+-- Create Property table
+CREATE TABLE Property (
+    property_id INT PRIMARY KEY,
+    property_name VARCHAR(255) NOT NULL,
+    area VARCHAR(100) NOT NULL,
+    rate INT NOT NULL,
+    owner_id INT,
+    FOREIGN KEY (owner_id) REFERENCES Owner(owner_id)
+);
+
+-- Insert sample data into Owner table
+INSERT INTO Owner (owner_id, owner_name) VALUES
+    (1, 'Mr. Patil'),
+    (2, 'Mrs. Sharma'),
+    (3, 'Mr. Singh'),
+    (4, 'Ms. Gupta'),
+    (5, 'Dr. Kumar');
+
+-- Insert sample data into Property table
+INSERT INTO Property (property_id, property_name, area, rate, owner_id) VALUES
+    (101, 'Property1', 'Mumbai', 120000, 1),
+    (102, 'Property2', 'Nashik', 90000, 1),
+    (103, 'Property3', 'Pune', 150000, 2),
+    (104, 'Property4', 'Nashik', 80000, 3),
+    (105, 'Property5', 'Mumbai', 95000, 4); 
+
+ Answer the following Queries 
+a.	Display area wise property details. [3]
+SELECT area, property_name, rate, owner_name
+FROM Property
+JOIN Owner ON Property.owner_id = Owner.owner_id; 	 
+b.	Display property owned by 'Mr.Patil' having minimum rate [3]
+SELECT property_name, area, rate
+FROM Property
+JOIN Owner ON Property.owner_id = Owner.owner_id
+WHERE owner_name = 'Mr. Patil'
+ORDER BY rate ASC
+LIMIT 1; 	
+c.	Give the details of owner whose property is at “Nashik”. [4]
+SELECT owner_name, property_name, area, rate
+FROM Property
+JOIN Owner ON Property.owner_id = Owner.owner_id
+WHERE area = 'Nashik';
+d.	Display area of property whose rate is less than 100000. [4]
+SELECT area, property_name, rate
+FROM Property
+WHERE rate < 100000;

@@ -1,0 +1,188 @@
+S4
+Q1) Write a bootstrap program for the following “The .table class adds basic styling (light padding and only horizontal dividers) to a table” The table can have the first name, last name, and email id as columns
+Ans 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Bootstrap Table Example</title>
+</head>
+<body>
+
+  <div class="container mt-4">
+    <h2 class="text-center">User Information</h2>
+
+    <!-- Table with Bootstrap styling -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sample data rows, replace with your actual data -->
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>john.doe@example.com</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>Smith</td>
+          <td>jane.smith@example.com</td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+  </div>
+
+  <!-- Bootstrap JS and Popper.js (Optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+Q2)
+1.Model the following information system as a document database. Consider hospitals around Nashik. Each hospital may have one or more specializations like Pediatric, Gynaec, Orthopedic, etc. A person can recommend/provide review for a hospital. A doctor can give service to one or more hospitals.
+ 2. Assume appropriate attributes and collections as per the query requirements. [3] 
+3. Insert at least 10 documents in each collection
+-- Create Hospital table
+CREATE TABLE Hospital (
+    hospital_id INT PRIMARY KEY,
+    hospital_name VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL
+);
+
+-- Create Specialization table
+CREATE TABLE Specialization (
+    specialization_id INT PRIMARY KEY,
+    specialization_name VARCHAR(255) NOT NULL
+);
+
+-- Create HospitalSpecialization table (to represent many-to-many relationship)
+CREATE TABLE HospitalSpecialization (
+    hospital_id INT,
+    specialization_id INT,
+    PRIMARY KEY (hospital_id, specialization_id),
+    FOREIGN KEY (hospital_id) REFERENCES Hospital(hospital_id),
+    FOREIGN KEY (specialization_id) REFERENCES Specialization(specialization_id)
+);
+
+-- Create Doctor table
+CREATE TABLE Doctor (
+    doctor_id INT PRIMARY KEY,
+    doctor_name VARCHAR(255) NOT NULL
+);
+
+-- Create DoctorHospital table (to represent many-to-many relationship)
+CREATE TABLE DoctorHospital (
+    doctor_id INT,
+    hospital_id INT,
+    PRIMARY KEY (doctor_id, hospital_id),
+    FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id),
+    FOREIGN KEY (hospital_id) REFERENCES Hospital(hospital_id)
+);
+
+-- Create Review table
+CREATE TABLE Review (
+    review_id INT PRIMARY KEY,
+    hospital_id INT,
+    reviewer_name VARCHAR(255) NOT NULL,
+    rating DECIMAL(2, 1) NOT NULL,
+    FOREIGN KEY (hospital_id) REFERENCES Hospital(hospital_id)
+);
+
+-- Insert sample data into Hospital table
+INSERT INTO Hospital (hospital_id, hospital_name, city) VALUES
+    (1, 'City Hospital', 'Nashik'),
+    (2, 'Pediatric Care', 'Nashik'),
+    (3, 'Ortho Clinic', 'Mumbai'),
+    (4, 'Gynaecology Center', 'Nashik'),
+    (5, 'Specialty Hospital', 'Pune'),
+    (6, 'General Hospital', 'Nashik'),
+    (7, 'Ortho & More', 'Nashik'),
+    (8, 'Metro Hospital', 'Mumbai'),
+    (9, 'Women's Health Center', 'Nashik'),
+    (10, 'Child Wellness Clinic', 'Pune');
+
+-- Insert sample data into Specialization table
+INSERT INTO Specialization (specialization_id, specialization_name) VALUES
+    (1, 'Pediatric'),
+    (2, 'Gynaecology'),
+    (3, 'Orthopedic'),
+    (4, 'General');
+
+-- Insert sample data into HospitalSpecialization table
+INSERT INTO HospitalSpecialization (hospital_id, specialization_id) VALUES
+    (1, 1),
+    (2, 1),
+    (3, 3),
+    (4, 2),
+    (5, 4),
+    (6, 4),
+    (7, 3),
+    (8, 3),
+    (9, 2),
+    (10, 1);
+
+-- Insert sample data into Doctor table
+INSERT INTO Doctor (doctor_id, doctor_name) VALUES
+    (1, 'Dr. Deshmukh'),
+    (2, 'Dr. Patel'),
+    (3, 'Dr. Singh'),
+    (4, 'Dr. Sharma'),
+    (5, 'Dr. Gupta');
+
+-- Insert sample data into DoctorHospital table
+INSERT INTO DoctorHospital (doctor_id, hospital_id) VALUES
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (3, 4),
+    (4, 5),
+    (4, 6),
+    (5, 7),
+    (5, 8),
+    (5, 9),
+    (5, 10);
+
+-- Insert sample data into Review table
+INSERT INTO Review (review_id, hospital_id, reviewer_name, rating) VALUES
+    (1, 1, 'Patient A', 4.5),
+    (2, 2, 'Patient B', 3.8),
+    (3, 3, 'Patient C', 4.2),
+    (4, 4, 'Patient D', 4.9),
+    (5, 5, 'Patient E', 3.5),
+    (6, 6, 'Patient F', 4.7),
+    (7, 7, 'Patient G', 3.0),
+    (8, 8, 'Patient H', 4.6),
+    (9, 9, 'Patient I', 3.9),
+    (10, 10, 'Patient J', 4.1);
+
+4. Answer the following Queries 
+a. List the names of hospitals with………… specialization. [3] 
+SELECT h.hospital_name
+FROM Hospital h
+JOIN HospitalSpecialization hs ON h.hospital_id = hs.hospital_id
+JOIN Specialization s ON hs.specialization_id = s.specialization_id
+WHERE s.specialization_name = 'Orthopedic';
+b. List the Names of all hospital located in ……. city [3] 
+SELECT hospital_name
+FROM Hospital
+WHERE city = 'Nashik';
+c. List the names of hospitals where Dr. Deshmukh visits [4] 
+SELECT h.hospital_name
+FROM Hospital h
+JOIN DoctorHospital dh ON h.hospital_id = dh.hospital_id
+JOIN Doctor d ON dh.doctor_id = d.doctor_id
+WHERE d.doctor_name = 'Dr. Deshmukh';
+d. List the names of hospitals whose rating >=4
+SELECT h.hospital_name, r.rating
+FROM Hospital h
+JOIN Review r ON h.hospital_id = r.hospital_id
+WHERE r.rating >= 4;

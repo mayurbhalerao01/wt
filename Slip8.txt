@@ -1,0 +1,100 @@
+S8
+Q1) Create a button with different style (Secondary, Primary, Success, Error, Info, Warning, Danger) using BootStrap
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Bootstrap Buttons</title>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h2>Bootstrap Buttons</h2>
+
+    <button type="button" class="btn btn-secondary">Secondary Button</button>
+    <button type="button" class="btn btn-primary">Primary Button</button>
+    <button type="button" class="btn btn-success">Success Button</button>
+    <button type="button" class="btn btn-danger">Danger Button</button>
+    <button type="button" class="btn btn-info">Info Button</button>
+    <button type="button" class="btn btn-warning">Warning Button</button>
+    <button type="button" class="btn btn-danger">Danger Button</button>
+  </div>
+
+  <!-- Bootstrap JS and Popper.js (Optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+Q2)
+1.Model the following inventory information as a document database. The inventory keeps track of various items. The items are tagged in various categories. Items may be kept in various warehouses and each warehouse keeps track of the quantity of the item. 
+2. Assume appropriate attributes and collections as per the query requirements [3]
+3. Insert at least 5 documents in each collection. [3] 
+-- Create Item table
+CREATE TABLE Item (
+    item_id INT PRIMARY KEY,
+    item_name VARCHAR(255) NOT NULL,
+    tags INT NOT NULL,
+    status VARCHAR(1) NOT NULL,
+    height DECIMAL(5, 2) NOT NULL
+);
+
+-- Create Warehouse table
+CREATE TABLE Warehouse (
+    warehouse_id INT PRIMARY KEY,
+    warehouse_name VARCHAR(255) NOT NULL
+);
+
+-- Create Inventory table (to represent the many-to-many relationship between Item and Warehouse)
+CREATE TABLE Inventory (
+    item_id INT,
+    warehouse_id INT,
+    quantity INT NOT NULL,
+    PRIMARY KEY (item_id, warehouse_id),
+    FOREIGN KEY (item_id) REFERENCES Item(item_id),
+    FOREIGN KEY (warehouse_id) REFERENCES Warehouse(warehouse_id)
+);
+
+-- Insert sample data into Item table
+INSERT INTO Item (item_id, item_name, tags, status, height) VALUES
+    (1, 'Laptop', 3, 'A', 10.5),
+    (2, 'Planner', 4, 'B', 8.2),
+    (3, 'Headphones', 2, 'C', 6.5),
+    (4, 'Chair', 5, 'A', 12.0),
+    (5, 'Desk', 3, 'B', 9.8);
+
+-- Insert sample data into Warehouse table
+INSERT INTO Warehouse (warehouse_id, warehouse_name) VALUES
+    (101, 'Main Warehouse'),
+    (102, 'Backup Warehouse'),
+    (103, 'Local Storage');
+
+-- Insert sample data into Inventory table
+INSERT INTO Inventory (item_id, warehouse_id, quantity) VALUES
+    (1, 101, 400),
+    (2, 102, 20),
+    (2, 103, 30),
+    (3, 101, 150),
+    (4, 102, 80),
+    (5, 103, 25);
+4. Answer the following Queries. 
+a. List all the items qty is greater than 300 [3] 
+SELECT i.*
+FROM Item i
+JOIN Inventory inv ON i.item_id = inv.item_id
+WHERE inv.quantity > 300;
+b. List all items which have tags less than 5 [3] 
+SELECT *
+FROM Item
+WHERE tags < 5;
+c. List all items having status equal to “B” or having quantity less than 50 and height of the product should be greater than 8 [4] 
+SELECT *
+FROM Item
+WHERE status = 'B' OR (quantity < 50 AND height > 8);
+d. Find all warehouse that keeps item “Planner” and having in stock quantity less than 20
+SELECT w.*
+FROM Warehouse w
+JOIN Inventory inv ON w.warehouse_id = inv.warehouse_id
+JOIN Item i ON inv.item_id = i.item_id
+WHERE i.item_name = 'Planner' AND inv.quantity < 2;

@@ -1,0 +1,146 @@
+S3
+Q1) Write a bootstrap application to display thumbnails of the images.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Thumbnails</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Image Thumbnails</h2>
+        <div class="row">
+            <!-- Image 1 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://placekitten.com/300/200" class="card-img-top" alt="Image 1">
+                    <div class="card-body">
+                        <p class="card-text">Image 1 description goes here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 2 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://placekitten.com/300/201" class="card-img-top" alt="Image 2">
+                    <div class="card-body">
+                        <p class="card-text">Image 2 description goes here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 3 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://placekitten.com/300/202" class="card-img-top" alt="Image 3">
+                    <div class="card-body">
+                        <p class="card-text">Image 3 description goes here.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add more image cards as needed -->
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+Q2)
+1.Model the following system as a document database. Consider employee and department’s information. 
+2. Assume appropriate attributes and collections as per the query requirements. [3] 
+3. Insert at least 5 documents in each collection.
+-- Create Department table
+CREATE TABLE Department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(255) NOT NULL
+);
+
+-- Create Employee table
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(255) NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES Department(dept_id)
+);
+
+-- Insert sample data into Department table
+INSERT INTO Department (dept_id, dept_name) VALUES
+    (1, 'Sales'),
+    (2, 'HR'),
+    (3, 'IT');
+
+-- Insert sample data into Employee table
+INSERT INTO Employee (emp_id, emp_name, salary, department_id) VALUES
+    (1, 'John', 60000, 1),
+    (2, 'Jane', 70000, 1),
+    (3, 'Bob', 80000, 2),
+    (4, 'Alice', 75000, 3),
+    (5, 'Charlie', 90000, 1);
+
+4. Answer the following Queries. 
+a. Display name of employee who has highest salary [3] 
+SELECT emp_name
+FROM Employee
+ORDER BY salary DESC
+LIMIT 1;
+b. Display biggest department with max. no. of employees [3]
+SELECT d.dept_name, COUNT(e.emp_id) AS totalEmployees
+FROM Department d
+JOIN Employee e ON d.dept_id = e.department_id
+GROUP BY d.dept_id
+ORDER BY totalEmployees DESC
+LIMIT 1;
+ c. Write a cursor which shows department wise employee information [4]
+DELIMITER //
+
+CREATE PROCEDURE DepartmentWiseEmployeeInfo()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE dept_id INT;
+    DECLARE dept_name VARCHAR(255);
+    DECLARE emp_id INT;
+    DECLARE emp_name VARCHAR(255);
+    DECLARE salary DECIMAL(10, 2);
+
+    -- Declare cursor
+    DECLARE cur CURSOR FOR
+        SELECT d.dept_id, d.dept_name, e.emp_id, e.emp_name, e.salary
+        FROM Department d
+        LEFT JOIN Employee e ON d.dept_id = e.department_id
+        ORDER BY d.dept_id, e.emp_id;
+
+    -- Declare continue handler
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN cur;
+
+    -- Fetch and display data
+    FETCH cur INTO dept_id, dept_name, emp_id, emp_name, salary;
+    WHILE NOT done DO
+        IF dept_id IS NOT NULL THEN
+            SELECT CONCAT('Department: ', dept_name, ', Employee: ', emp_name, ', Salary: ', salary) AS result;
+        END IF;
+        FETCH cur INTO dept_id, dept_name, emp_id, emp_name, salary;
+    END WHILE;
+
+    CLOSE cur;
+END //
+
+DELIMITER ;
+
+-- Call the stored procedure
+CALL DepartmentWiseEmployeeInfo();
+ d. List all the employees who work in Sales dept and salary > 50000
+SELECT emp_name
+FROM Employee
+WHERE department_id = (SELECT dept_id FROM Department WHERE dept_name = 'Sales')
+    AND salary > 50000;
